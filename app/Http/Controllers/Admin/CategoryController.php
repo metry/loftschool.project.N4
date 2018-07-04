@@ -10,8 +10,8 @@ class CategoryController extends Controller
 {
     public function index()
     {
-        //categories output in OutputServiceProvider
-        return view('admin.categories.index');
+        $data = Category::all()->sortBy('id');
+        return view('admin.categories.index', ['categories' => $data]);
     }
 
     public function create()

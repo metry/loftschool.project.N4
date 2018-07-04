@@ -22,6 +22,8 @@ class CategoryController extends Controller
         $data['title'] = 'Игры в разделе ' . $category->name;
         $data['description'] = $category->description;
         $data['ordersCount'] = Order::where('user_id', Auth::id())->count();
+        $data['categories'] = Category::all()->sortBy('id');
+        $data['randomProduct'] = Product::inRandomOrder()->first();
         return view('category', $data);
     }
 }

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Category;
 use App\Classes\ImageHandler;
 use App\Http\Controllers\Controller;
 use App\Product;
@@ -20,8 +21,8 @@ class ProductController extends Controller
 
     public function create()
     {
-        //categories output in OutputServiceProvider
-        return view('admin.products.create');
+        $data = Category::all()->sortBy('id');
+        return view('admin.products.create', ['categories' => $data]);
     }
 
     public function store(Request $request)
@@ -51,9 +52,9 @@ class ProductController extends Controller
 
     public function edit($id)
     {
-        $data = Product::find($id);
-        //categories output in OutputServiceProvider
-        return view('admin.products.edit', ['product' => $data]);
+        $data['product'] = Product::find($id);
+        $data['categories'] = Category::all()->sortBy('id');
+        return view('admin.products.edit', $data);
     }
 
     public function update($id, Request $request)

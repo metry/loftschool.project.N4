@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Category;
 use App\Mail\NewOrder;
 use App\Order;
 use App\Mail as UserMail;
+use App\Product;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
@@ -55,6 +57,8 @@ class OrderController extends Controller
             ->orderBy('created_at', 'desc')
             ->paginate(self::ORDERS_ON_PAGE);
         $data['ordersCount'] = Order::where('user_id', Auth::id())->count();
+        $data['categories'] = Category::all()->sortBy('id');
+        $data['randomProduct'] = Product::inRandomOrder()->first();
         return view('order', $data);
     }
 }

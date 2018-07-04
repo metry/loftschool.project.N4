@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Category;
 use App\Order;
 use App\Product;
 use Illuminate\Http\Request;
@@ -18,6 +19,8 @@ class MainController extends Controller
         $data['products'] = $products;
         $data['title'] = 'Последние товары';
         $data['ordersCount'] = Order::where('user_id', Auth::id())->count();
+        $data['categories'] = Category::all()->sortBy('id');
+        $data['randomProduct'] = Product::inRandomOrder()->first();
         return view('index', $data);
     }
 
@@ -31,6 +34,8 @@ class MainController extends Controller
         $data['products'] = $products;
         $data['title'] = 'Результаты поиска';
         $data['ordersCount'] = Order::where('user_id', Auth::id())->count();
+        $data['categories'] = Category::all()->sortBy('id');
+        $data['randomProduct'] = Product::inRandomOrder()->first();
         return view('search', $data);
     }
 }
