@@ -28,4 +28,12 @@ class Product extends Model
     {
         return $this->belongsTo(Category::class, 'category_id', 'id');
     }
+
+    public static function searchProducts($request, $countOnPage)
+    {
+        return Product::where('name', 'LIKE', "%". $request ."%")
+            ->orWhere('description', 'LIKE', "%". $request ."%")
+            ->orderBy('id', 'desc')
+            ->paginate($countOnPage);
+    }
 }

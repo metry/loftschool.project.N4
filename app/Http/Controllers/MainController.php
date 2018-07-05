@@ -26,12 +26,7 @@ class MainController extends Controller
 
     public function search(Request $request)
     {
-        $searchString = $request->get('q');
-        $products = Product::where('name', 'LIKE', "%". $searchString ."%")
-            ->orWhere('description', 'LIKE', "%". $searchString ."%")
-            ->orderBy('id', 'desc')
-            ->paginate(self::PRODUCTS_ON_PAGE);
-        $data['products'] = $products;
+        $data['products'] = Product::searchProducts($request->get('q'), self::PRODUCTS_ON_PAGE);
         $data['title'] = 'Результаты поиска';
         $data['ordersCount'] = Order::where('user_id', Auth::id())->count();
         $data['categories'] = Category::all()->sortBy('id');
