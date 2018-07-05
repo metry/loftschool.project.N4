@@ -32,20 +32,18 @@ class OrderController extends Controller
             return response()->json(['errors'=>$validator->errors()->all()]);
         }
 
-        $order = new Order();
-        $order->user_id = Auth::id();
-        $order->product_id = $product_id;
-        $order->save();
-        $newOrderId = $order->id;
-
+        $order = Order::storeOrder([
+            'user_id' => Auth::id(),
+            'product_id' => $product_id
+        ]);
 
         if (UserMail::count() > 0) {
-            Mail::to(UserMail::all())->send(new NewOrder(['id' => $newOrderId]));
+            Mail::to(UserMail::all())->send(new NewOrder(['id' => $order->id]));
         }
 
         return response()->json([
             'result' => 'true',
-            'id' => $newOrderId
+            'id' => $order->id
         ]);
     }
 

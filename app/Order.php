@@ -8,6 +8,11 @@ class Order extends Model
 {
     protected $guarded = ['id'];
 
+    public static function storeOrder($data)
+    {
+        return self::forceCreate($data);
+    }
+
     public function product()
     {
         return $this->belongsTo(Product::class, 'product_id', 'id');
