@@ -8,7 +8,7 @@ class Order extends Model
 {
     protected $guarded = ['id'];
 
-    public static function storeOrder($data)
+    public static function add($data)
     {
         return self::forceCreate($data);
     }

@@ -32,7 +32,7 @@ class OrderController extends Controller
             return response()->json(['errors'=>$validator->errors()->all()]);
         }
 
-        $order = Order::storeOrder([
+        $order = Order::add([
             'user_id' => Auth::id(),
             'product_id' => $product_id
         ]);
